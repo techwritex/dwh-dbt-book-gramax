@@ -19,7 +19,7 @@ title: Определение источников данных
 
 Откройте pgAdmin и загрузите скачанный файл в PostgreSQL.
 
-В результате выполненных действий у вас появится база данных `carsharing-dbt`, которая состоит из 12 таблиц в схеме `public`.
+В результате выполненных действий у вас появится база данных `carsharing_dbt`, которая состоит из 12 таблиц в схеме `public`.
 
 Физическая схема транзакционных данных выглядит следующим образом:
 
@@ -45,24 +45,40 @@ title: Определение источников данных
 
 ![](./opredelenie-istochnikov-dannykh-2.png "Рисунок 16. Создание настроечного файла системы-источника"){width=1206px height=682px}
 
-```yaml
+Добавьте следующие настройки в  `src_pg__carsharing.yml` для источников:
+
+1. `name` – произвольное имя источника (например, pg)
+
+2. `database` – имя базы, которое указано в настройке профилей `profiles.yml`
+
+3. `schema` – имя схемы, которое указано в настройке профилей `profiles.yml`
+
+4. `tables/name` – перечислите все таблицы, данные из которых импортируются в проект.
+
+```bash
 version: 2
 
-	sources:
-	
-		name: pg database: carsharing schema: public tables:
-		name: customer
-		name: booking
-		name: payment
-		name: ride
-		name: location
-		name: car
-		name: category
-		name: service
-		name: service_type
-		name: breakdown
-		name: breakdown_type
-		name: accident
+sources:
+  - name: pg
+    database: carsharing_db
+    schema: public
+    tables:
+      - name: customer
+      - name: booking
+      - name: payment
+      - name: ride
+      - name: location
+      - name: car
+      - name: category
+      - name: service
+      - name: service_type
+      - name: breakdown
+      - name: breakdown_type
+      - name: accident
 ```
 
+Источники определены, пришло время создать первые модели проекта. Но прежде сохраните текущее состояние проекта в центральном репозитории Github.
 
+### **Сохранение проекта в git-репозитории**
+
+Загрузите текущее состояние dbt-проекта в репозиторий, который вы создали ранее (в главе «Развертывание проекта»). Для этого откройте в VS Code панель с терминалом или же запустите командную строку отдельно (предварительно переместитесь в папку dbt-проекта). Но прежде, инициализируйте git-репозиторий в папке проекта.
