@@ -94,7 +94,7 @@ python -m pip install dbt-postgres
 После завершения установки плагина для PostgreSQL проверьте версию dbt. Для это выполните команду:
 
 ```bash
-$ dbt --version
+dbt --version
 ```
 
 ![](./ustanovka-programmnogo-obespecheniya.png "Рисунок 1. Проверка версии dbt Core и установленных адаптеров"){width=599px height=341px}

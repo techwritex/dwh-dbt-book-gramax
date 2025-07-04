@@ -24,7 +24,7 @@ title: Развертывание dbt-проекта
 Выполните команду инициализации dbt-проекта:
 
 ```bash
-$ dbt init carsharing
+dbt init carsharing
 ```
 
 После выполнения команды будет создан проект с заданным именем (папка с именем проекта `carsharing`).
@@ -72,8 +72,8 @@ $ dbt init carsharing
 С помощью командной строки перейдите в созданную папку проекта и запустите команду проверки соединения:
 
 ```bash
-$ cd carsharing
-$ dbt debug
+cd carsharing
+dbt debug
 ```
 
 ![](./razvertyvanie-dbt-proekta-4.png "Рисунок 5. Проверка соединения с платформой данных"){width=1022px height=1109px}
