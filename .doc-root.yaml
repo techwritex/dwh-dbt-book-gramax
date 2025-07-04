@@ -2,7 +2,9 @@ title: Хранилище данных с dbt
 syntax: Xml
 supportedLanguages:
   - ru
+  - en
 properties: []
 language: en
 versions:
   - v1.0
+description: Руководство по разработке хранилищ данных с dbt
