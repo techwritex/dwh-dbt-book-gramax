@@ -189,9 +189,24 @@ title: Архитектура dbt-проекта
 
 Сделать это можно с помощью макроса, который переписывает логику именования схем. Понимаю, что мы еще не углублялись в макросы, но пока просто примите на веру.
 
-![](./arkhitektura-dbt-proekta-3.png "Рисунок 13. Макрос, переписывающий логику именования схем базы данных"){width=739px height=509px}
+```sql
+{% macro generate_schema_name(custom_schema_name, node) -%}
 
-Создайте sql-файл с содержанием из рисунка 13 в папке `macros`.
+    {%- set default_schema = target.schema -%}
+    {%- if custom_schema_name is none -%}
+
+        {{ default_schema }}
+
+    {%- else -%}
+
+        {{ custom_schema_name | trim }}
+
+    {%- endif -%}
+
+{%- endmacro %}
+```
+
+Создайте sql-файл с содержанием из код-блока в папке `macros`:
 
 ![](./arkhitektura-dbt-proekta-4.png "Рисунок 14. Макрос создания пользовательских схем в структуре dbt-проекта"){width=1526px height=746px}
 
