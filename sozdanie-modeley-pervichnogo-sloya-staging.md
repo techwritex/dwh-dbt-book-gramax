@@ -109,6 +109,77 @@ dbt run
 
 ![](./sozdanie-modeley-pervichnogo-sloya-staging-3.png "Рисунок 21. Создание схемы и представлений первичного слоя"){width=685px height=1020px}
 
-Обратите внимание, что после выполнения команды `dbt run` в структуре проекта создается папка `target` с двумя подпапками – `compiled` и `run`, а также некоторыми другим файлами.
+Обратите внимание, что после выполнения команды `dbt run` в структуре проекта (в среде ведения разработки) создается папка `target` с двумя подпапками – `compiled` и `run`, а также некоторыми другим файлами.
 
+<image src="./sozdanie-modeley-pervichnogo-sloya-staging-4.png" title="Рисунок 22. Изменение структуры проекта после сборки (dbt run)" crop="0,0,100,100" objects="square,7.9452,41.4258,26.9178,39.21,,top-left" width="1460px" height="1038px"/>
 
+Папка `target/compiled/` содержит скомпилированный код моделей, состоящих только из `select` выражений. Здесь в код подставляются имена базы, схемы и таблицы источника.
+
+В папке `target/run/` содержатся файлы, код которых будет выполняться в базе (платформе данных) и создавать соответствующие объекты. Другими словами, это файлы с `create` выражениями.
+
+Посмотрите разницу содержимого файлов в этих двух папках на примере модели `stg_pg__customers`.
+
+`target/compiled/carsharing/models/staging/pg/stg_pg__customers.sql`
+
+```sql
+with source as (
+    
+    select * from "carsharing_db"."public"."customer"
+
+),
+
+staged as (
+
+    select
+    
+        customer_id,
+        first_name,
+        last_name,
+        gender,
+        driving_licence_number,
+        driving_licence_valid_from,
+        phone,
+        email,
+        last_update as updated_at   
+    
+    from source
+
+)
+
+select * from staged
+```
+
+`target/run/carsharing/models/staging/pg/stg_pg__customers.sql`
+
+```sql
+create view "carsharing_db"."staging"."stg_pg__customers__dbt_tmp"
+    
+    
+  as (
+    with source as (
+    
+    select * from "carsharing_db"."public"."customer"
+
+),
+
+staged as (
+
+    select
+    
+        customer_id,
+        first_name,
+        last_name,
+        gender,
+        driving_licence_number,
+        driving_licence_valid_from,
+        phone,
+        email,
+        last_update as updated_at   
+    
+    from source
+
+)
+
+select * from staged
+  );
+```
