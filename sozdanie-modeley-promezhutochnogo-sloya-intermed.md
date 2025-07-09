@@ -13,15 +13,13 @@ title: Создание моделей промежуточного слоя (in
 
 -  `core` – для хранения «общих» моделей,
 
--  `finance` – для хранения моделей финансового отдела,
-
--  `service` – для хранения моделей сервисного отдела.
+-  `finance` – для хранения моделей финансового отдела.
 
 ## Модели слоя
 
 ### Общие модели
 
-Одна из основных сущностей, которая может быть использована обоими отделами компании – заказчики (customers). Сама данная сущность будет создана на слое витрин, а промежуточный слой – место для преобразования данных для этой сущности.
+Одна из основных сущностей, которая может быть использована различными подразделениями компании – заказчики (customers). Сама данная сущность будет создана на слое витрин, а промежуточный слой – место для преобразования данных для этой сущности.
 
 На staging-слое есть модель `stg_pg__customers.sql`, которая содержит отдельные поля с именами и фамилиями заказчиков – `first_name` и `last_name`. Но по отдельности такие поля в аналитике практически не используются. В связи с этим, выполните первое простое преобразование данных на промежуточном слое – объединение этих двух полей.
 
@@ -64,7 +62,7 @@ with customers as (
 select * from customers
 ```
 
-![](./sozdanie-modeley-promezhutochnogo-sloya-intermed.png " Рисунок №. Промежуточная модель заказчиков"){width=1726px height=1018px}
+![](./sozdanie-modeley-promezhutochnogo-sloya-intermed.png "исунок №. Промежуточная модель заказчиков"){width=1892px height=946px}
 
 Пусть это достаточно простой пример, но на нем вы увидели не менее простой принцип создания модели промежуточного слоя dbt-проекта.
 
@@ -72,7 +70,7 @@ select * from customers
 
 Для создания обобщенной модели с данными об автомобилях обогатите данные таблицы `car` данными таблицы `category`.
 
-Создайте в папке `models/intermediate/core/` файл (в соответствии с правилами наименования) `int_cars_joined_to_categories.sql`.
+Создайте в папке `models/intermediate/core/` файл (по правилами наименования) `int_cars_joined_to_categories.sql`.
 
 Сделайте выборку данных из каждой staging-модели, а затем соедините:
 
@@ -130,7 +128,7 @@ cars_joined_to_categories as (
 select * from cars_joined_to_categories
 ```
 
-![](./sozdanie-modeley-promezhutochnogo-sloya-intermed-2.png "Рисунок №. Промежуточная модель автомобили"){width=1704px height=1070px}
+![](./sozdanie-modeley-promezhutochnogo-sloya-intermed-2.png "Рисунок №. Промежуточная модель автомобили"){width=1860px height=1002px}
 
 На промежуточном слое в качестве источников могут использоваться не только staging-модели, но и модели непосредственно промежуточного слоя. Примените эту идею в создании третьей общей сущности в платформе данных – бронирования (bookings). Как правило, бронирование содержит информацию о субъекте и объекте брони и будем считать эту сущность эквивалентом заказа. Применительно к учебному проекту модель бронирования должна быть представлена в разрезе заказчика и автомобиля.
 
@@ -194,13 +192,7 @@ bookings_joined_to_customers_and_cars as (
         bookings.booking_id,
         bookings.created_at,
         customers.customer_id, 
-        customers.full_name, 
-        customers.gender,
-        cars.car_id,
-        cars.brand, 
-        cars.model, 
-        cars.category_text, 
-        cars.rate
+        cars.car_id
 
     from bookings
 
@@ -215,9 +207,9 @@ bookings_joined_to_customers_and_cars as (
 select * from bookings_joined_to_customers_and_cars
 ```
 
-![](./sozdanie-modeley-promezhutochnogo-sloya-intermed-3.png "Рисунок №. Третья сущность"){width=1892px height=1116px}
+![](./sozdanie-modeley-promezhutochnogo-sloya-intermed-3.png "Рисунок №. Промежуточная модель бронирования"){width=2042px height=1034px}
 
-С «общими» моделями разобрались. Пришло время моделей для отделов компании, которые в конечном счете трансформируются в таблицы фактов.
+С «общими» моделями разобрались. Пришло время модели финансового отдел, которая в конечном счете трансформируется в таблицу фактов.
 
 ### Модели финансового отдела
 
@@ -274,60 +266,16 @@ payments_joined_to_bookings as(
 select * from payments_joined_to_bookings
 ```
 
-![](./sozdanie-modeley-promezhutochnogo-sloya-intermed-4.png "Рисунок №. Промежуточная модель для финансового отдела"){width=2006px height=1116px}
+![](./sozdanie-modeley-promezhutochnogo-sloya-intermed-4.png "Рисунок №. Промежуточная модель для финансового отдела"){width=1974px height=976px}
 
-### Модели сервисного отдела
+## Запуск проекта и обновление хранилища
 
-Теперь посмотрите на платформу данных глазами специалиста сервисного отдела. Исходя из имеющихся первичных данных, можно предположить, что сотрудникам сервисного отдела будет интересна, например, информация о текущем состоянии автомобилей и история их поломок.
+Таким образом, вы подготовили промежуточные модели, которые будут использоваться для создания витрин. Это конечно же не все модели, которые можно создать на основе данных системы-источника, для проведения аналитики учебного проекта. При желании вы можете создать дополнительные модели для сотрудников вымышленной компании Carsharing, а пока запустите движок dbt, чтобы создать объекты промежуточного слоя в хранилище.
 
-На первичном слое данных есть две модели, одна из которых содержит данные о поломках (`stg_pg__breakdowns`), а вторая является своего рода справочником с типами поломок (`stg_pg__breakdown_types`) – утечка топлива, неисправные тормоза, дефекты рулевого управления и т.д.
+Выполните команду запуска проекта:
 
-Создайте в папке `models/intermediate/service/` файл  `int_payments_joined_to_bookings.sql` и объедините в нем две перечисленные в предыдущем абзаце модели:
-
-```sql
-with breakdowns as (
-
-    select 
-
-        breakdown_id,
-        created_at,
-        breakdown_type_id,
-        car_id
-
-    from {{ ref('stg_pg__breakdowns') }}
-
-),
-
-breakdown_types as (
-
-    select
-
-        breakdown_type_id,
-        breakdown_type_text
-
-    from {{ ref('stg_pg__breakdown_types') }}
-
-), 
-
-breakdowns_joined_to_breakdown_types as (
-
-    select
-
-        breakdowns.breakdown_id,
-        breakdowns.created_at,
-        breakdown_types.breakdown_type_text,
-        breakdowns.car_id
-
-    from breakdowns
-
-    left join breakdown_types
-    on breakdowns.breakdown_type_id = breakdown_types.breakdown_type_id
-
-)
-
-select * from breakdowns_joined_to_breakdown_types
+```bash
+dbt run
 ```
-
-![](./sozdanie-modeley-promezhutochnogo-sloya-intermed-5.png "Рисунок №. Промежуточная модель о поломках "){width=2086px height=1134px}
 
 
