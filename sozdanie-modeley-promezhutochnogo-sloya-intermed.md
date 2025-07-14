@@ -392,7 +392,11 @@ dbt run
 
 <image src="./sozdanie-modeley-promezhutochnogo-sloya-intermed-9.png" title="Рисунок №. Создание схемы для промежуточного слоя " crop="0,0,100,100" objects="square,5.9028,82.6531,18.4896,7.3469,,top-left" width="2088px" height="888px"/>
 
+<note>
+
 Примечание про запуск создания моделей определенной папки.
+
+</note>
 
 ## Отслеживание связей между моделями
 
