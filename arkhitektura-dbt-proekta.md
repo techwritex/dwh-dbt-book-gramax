@@ -191,7 +191,7 @@ title: Архитектура dbt-проекта
 
 Создайте в папке `macros` sql-файл с содержанием из Рисунка 14:
 
-![](./arkhitektura-dbt-proekta-4.png "Рисунок 14. Макрос создания пользовательских схем в структуре dbt-проекта"){width=1526px height=746px}
+![](./arkhitektura-dbt-proekta-4.png "Рисунок 13. Макрос создания пользовательских схем в структуре dbt-проекта"){width=1526px height=746px}
 
 <note type="lab" title="Примечание">
 
@@ -203,6 +203,6 @@ title: Архитектура dbt-проекта
 
 В заключении данного раздела в папке `models` создайте 3 подпапки с названиями слоев хранилища (`staging`, `intermediate`, `marts`):
 
-![](./arkhitektura-dbt-proekta-3.png "Рисунок №. Слои хранилища"){width=1452px height=808px}
+![](./arkhitektura-dbt-proekta-3.png "Рисунок 14. Слои хранилища"){width=1452px height=808px}
 
 Переходим к определению источников данных.

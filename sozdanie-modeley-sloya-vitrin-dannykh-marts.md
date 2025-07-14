@@ -55,7 +55,7 @@ select * from customers
 order by customer_id
 ```
 
-![](./sozdanie-modeley-sloya-vitrin-dannykh-marts.png "Рисунок №. Витрина Заказчики"){width=1656px height=1066px}
+![](./sozdanie-modeley-sloya-vitrin-dannykh-marts.png "Рисунок 38. Витрина Заказчики"){width=1656px height=1066px}
 
 В той же папке создайте файл `dim_cars.sql` и добавьте в него следующий код:
 
@@ -82,7 +82,7 @@ select * from cars
 order by car_id
 ```
 
-![](./sozdanie-modeley-sloya-vitrin-dannykh-marts-2.png "Рисунок №. Витрина Автомобили"){width=1684px height=1062px}
+![](./sozdanie-modeley-sloya-vitrin-dannykh-marts-2.png "Рисунок 39. Витрина Автомобили"){width=1684px height=1062px}
 
 Создайте последнее измерение `dim_calendar.sql` и добавьте в него следующий код:
 
@@ -104,7 +104,7 @@ with calendar as (
 select * from calendar
 ```
 
-![](./sozdanie-modeley-sloya-vitrin-dannykh-marts-3.png "Рисунок №. Витрина Календарь"){width=1642px height=1054px}
+![](./sozdanie-modeley-sloya-vitrin-dannykh-marts-3.png "Рисунок 40. Витрина Календарь"){width=1642px height=1054px}
 
 ### Модели финансового отдела
 
@@ -130,7 +130,7 @@ with payments as (
 select * from payments
 ```
 
-![](./sozdanie-modeley-sloya-vitrin-dannykh-marts-4.png "Рисунок №. Витрина Оплата"){width=1694px height=1096px}
+![](./sozdanie-modeley-sloya-vitrin-dannykh-marts-4.png "Рисунок 41. Витрина Оплата"){width=1694px height=1096px}
 
 ## Запуск проекта и обновление хранилища
 
@@ -146,7 +146,7 @@ dbt run
 
 Перейдите в pgAdmin и проверьте результат:
 
-<image src="./sozdanie-modeley-sloya-vitrin-dannykh-marts-5.png" title="Рисунок №. Создание схемы и объектов витрин" crop="0,0,100,100" objects="square,10.5262,17.7758,39.7854,4.1156,,top-left&square,10.7046,64.7986,38.3581,17.8634,,top-left" width="1390px" height="1416px"/>
+<image src="./sozdanie-modeley-sloya-vitrin-dannykh-marts-5.png" title="Рисунок 42. Создание схемы и объектов витрин" crop="0,0,100,100" objects="square,10.5262,17.7758,39.7854,4.1156,,top-left&square,10.7046,64.7986,38.3581,17.8634,,top-left" width="1390px" height="1416px"/>
 
 Также для обновления линейного графа (и всей документации конечно же) выполните последовательно две команды:
 
@@ -157,7 +157,7 @@ dbt docs serve
 
 После запуска локального сайта с документацией откройте линейный граф и убедитесь, что там добавлены новые модели витрин.
 
-<image src="./sozdanie-modeley-sloya-vitrin-dannykh-marts-6.png" title="Рисунок №. Обновленный граф зависимости моделей проекта" crop="0,0,100,100" objects="square,88.4683,16.0511,10.3873,65.1989,,top-left" width="1136px" height="704px"/>
+<image src="./sozdanie-modeley-sloya-vitrin-dannykh-marts-6.png" title="Рисунок 43. Обновленный граф зависимости моделей проекта" crop="0,0,100,100" objects="square,88.4683,16.0511,10.3873,65.1989,,top-left" width="1136px" height="704px"/>
 
 Остановите локальный сервер (`Ctrl+C`) и сохраните код текущего состояния проекта в git-репозитории.
 
@@ -184,3 +184,5 @@ git push
 ```
 
 Теперь актуальный код проекта хранится в Github-репозитории.
+
+

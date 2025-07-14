@@ -15,7 +15,7 @@ title: Развертывание dbt-проекта
 
 Нажмите **Create repository** (создать репозиторий).
 
-![](./razvertyvanie-dbt-proekta.png "Рисунок 2. Создание репозитория в GitHub"){width=767px height=976px}
+![](./razvertyvanie-dbt-proekta.png "Рисунок 3. Создание репозитория в GitHub"){width=767px height=976px}
 
 Оставьте на некоторе время Github и займитесь инициализацией dbt-проекта. **Создание проекта**
 
