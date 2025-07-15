@@ -1,7 +1,6 @@
 title: Хранилище данных с dbt
 syntax: Xml
 supportedLanguages:
-  - ru
   - en
 properties: []
 language: en
