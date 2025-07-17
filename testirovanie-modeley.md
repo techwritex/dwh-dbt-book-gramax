@@ -159,6 +159,22 @@ models:
           - not_null
 ```
 
-![](./testirovanie-modeley-4.png "Рисунок 47. Добавление универсальных встроенных тестов (generic tests)"){width=1880px height=1072px}
+![](./testirovanie-modeley-4.png "Рисунок 47. Добавление универсальных встроенных тестов (generic tests) для измерений"){width=1880px height=1072px}
+
+Теперь создайте в папке `models/marts/finance/` файл `_facts_tests.yml` и добавьте в него следующий код:
+
+```yaml
+version: 2
+
+models:
+  - name: fct_payments
+    columns:
+      - name: payment_id
+        tests:
+          - unique
+          - not_null
+```
+
+![](./testirovanie-modeley-5.png "Рисунок 48. Добавление универсальных встроенных тестов (generic tests) для фактов"){width=1510px height=1058px}
 
 ## Модульные тесты (unit tests)
