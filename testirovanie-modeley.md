@@ -105,7 +105,7 @@ data_tests:
 
 Запустите команду тестирования:
 
-```sql
+```bash
 dbt test 
 ```
 
@@ -177,4 +177,14 @@ models:
 
 ![](./testirovanie-modeley-5.png "Рисунок 48. Добавление универсальных встроенных тестов (generic tests) для фактов"){width=1510px height=1058px}
 
+Еще раз запустите тесты и убедитесь, что с данными всё в порядке:
+
+```bash
+dbt test
+```
+
+![](./testirovanie-modeley-6.png "Рисунок 49. Запуск универсальных тестов (generic tests) "){width=1321px height=845px}
+
 ## Модульные тесты (unit tests)
+
+
