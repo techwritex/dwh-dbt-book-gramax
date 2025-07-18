@@ -195,15 +195,36 @@ dbt test
 
 Итак, создайте в новой папке `macros/custom_tests` файл `check_positive_values.sql` со следующим кодом:
 
-```sql
-{% test test_positive_values(model, column_name) %}
+![](./testirovanie-modeley-7.png "Рисунок 50. Пользовательский универсальный тест (custom generic test) "){width=1678px height=968px}
 
-select *
-from {{ model }}
-where {{ column_name }} <= 0
+Как видно тест принимает в качестве параметров имя модели и столбца с показателем.
 
-{% endtest %}
+Перейдите в папку `models/marts/finance/` , откройте настроечный файл `_facts_tests.yml` и добавьте в него проверку столбца `amount`:
+
+```yaml
+version: 2
+
+models:
+  - name: fct_payments
+    columns:
+      - name: payment_id
+        tests:
+          - unique
+          - not_null
+      - name: amount
+        tests:
+          - check_positive_values
 ```
+
+![](./testirovanie-modeley-8.png "Рисунок 51. Настройка для пользовательского универсального теста (custom generic test) "){width=1616px height=1012px}
+
+Запустите проверку конкретной модели `fct_payments`, для которой применим только что добавленный пользовательский тест (а также созданный ранее единичный тест). Делается это с помощью той же команды `dbt test`, но с указанием имени модели:
+
+```bash
+dbt test --select fct_payments
+```
+
+![](./testirovanie-modeley-9.png){width=910px height=581px}
 
 ## Модульные тесты (unit tests)
 
