@@ -241,5 +241,3 @@ dbt test --select "test_type:generic"
 </note>
 
 ## Модульные тесты (unit tests)
-
-
