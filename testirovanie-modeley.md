@@ -235,7 +235,7 @@ dbt test --select "test_type:singular"
 ```
 
 ```bash
-dbt test --select "test_type:unit"
+dbt test --select "test_type:generic"
 ```
 
 </note>
@@ -321,5 +321,11 @@ unit_tests:
 ```
 
 ![](./testirovanie-modeley-11.png "Рисунок 54. Настройки модульного теста (unit tests) "){width=2110px height=1012px}
+
+Запустите модульный тест для конкретной модели из примера (`fct_payments`):
+
+```bash
+dbt test --select "fct_payments,test_type:unit"
+```
 
 
