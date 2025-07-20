@@ -235,7 +235,7 @@ dbt test --select "test_type:singular"
 ```
 
 ```bash
-dbt test --select "test_type:generic"
+dbt test --select "test_type:unit"
 ```
 
 </note>
@@ -260,9 +260,9 @@ dbt test --select "test_type:generic"
 
 ### Подготовка к модульному тесту
 
-Представьте, что у бизнеса возникла потребность дополнительной аналитики, которой не было в исходных данных. Из этой потребности сформировалась техническая задача по добавлению в какую-то существующую модель нового столбца. Например, нужно добавить классификацию притока денежных средств на основе суммы оплаты (`amount`).
+Представьте, что у бизнеса возникла потребность дополнительной аналитики, которой не было в исходных данных. Из этой потребности сформировалась техническая задача по добавлению в какую-то существующую модель нового столбца. Например, нужно добавить классификацию притока денежных средств на основе суммы оплаты (`amount`). Перед применением новой логики в продуктивной среде, юнит-тесты помогут проверить правильность этой логики.
 
-Упрощенная логика классификации притока денежных средств за пользование автомобилями компании:
+Вот упрощенная логика классификации притока денежных средств за пользование автомобилями компании:
 
 -  небольшие денежные поступления (small): до 1500 рублей;
 
@@ -270,9 +270,7 @@ dbt test --select "test_type:generic"
 
 -  крупные денежные поступления (large): более 3000 рублей.
 
-Так как ранее было отмечено, что все преобразования выполняются на промежуточном слое, то внесите дополнения по указанной выше логике в модель `int_payments_joined_to_bookings.sql.`
-
-Откройте данный файл и замените его код на следующий (или просто добавьте строки, которые относятся к новой логике):
+Внесите дополнения по указанной выше логике в модель `fct_payments.sql`. Откройте данный файл и замените его код на следующий (или просто добавьте строки, которые относятся к новой логике):
 
 ```sql
 with payments as (
@@ -281,53 +279,47 @@ with payments as (
 
         payment_id, 
         created_at, 
-        booking_id, 
+        customer_id,
+        car_id, 
         amount,
-
+        
         case 
             when amount < 1500 then 'small'
             when amount between 1500 and 3000 then 'medium'
             else 'large'
         end as cash_inflows
 
-    from {{ ref('stg_pg__payments') }}
-
-),
-
-bookings as (
-
-    select
-
-        booking_id, 
-        created_at, 
-        customer_id,
-		car_id
-
-    from {{ ref('int_bookings_joined_to_customers_and_cars') }}
-
-),
-
-payments_joined_to_bookings as(
-
-    select 
-
-        payments.payment_id, 
-        payments.created_at, 
-        bookings.customer_id,
-        bookings.car_id, 
-        payments.amount,
-        payments.cash_inflows
-
-    from payments
-
-    left join bookings
-    on payments.booking_id = bookings.booking_id
+    from {{ ref('int_payments_joined_to_bookings') }}
 
 )
 
-select * from payments_joined_to_bookings
+select * from payments
 ```
 
-<image src="./testirovanie-modeley-10.png" title="Рисунок 53. Добавление новой логики в промежуточную модель (оплата) " crop="0,0,100,100" objects="square,50.2822,47.8873,42.6943,20.4225,,top-left" width="1912px" height="1098px"/>
+<image src="./testirovanie-modeley-10.png" title="Рисунок 53. Добавление новой логики в существующую модель (оплата)" crop="0,0,100,100" objects="square,54.3771,55.1793,42.9854,20.1195,,top-left" width="1854px" height="1066px"/>
+
+### Настройка модульных тестов
+
+Создайте в папке `models/marts/finance/` файл `_finance_unit_tests.yml` и добавьте в него следующий код:
+
+```yaml
+unit_tests:
+  - name: test_cash_inflows_logic
+    description: "Проверка логики классификации притока денежных средств каршеринга."
+    model: fct_payments
+    given:
+      - input: ref('int_payments_joined_to_bookings')
+        rows:
+          - {amount: 4068.33}
+          - {amount: 2857.50}
+          - {amount: 1465.83}
+    expect:
+      rows:
+        - {amount: 4068.33, cash_inflows: 'large'}
+        - {amount: 2857.50, cash_inflows: 'medium'}
+        - {amount: 1465.83, cash_inflows: 'small'}
+```
+
+![](./testirovanie-modeley-11.png "Рисунок 54. Настройки модульного теста (unit tests) "){width=2110px height=1012px}
 
 
