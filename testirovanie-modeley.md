@@ -328,4 +328,40 @@ unit_tests:
 dbt test --select "fct_payments,test_type:unit"
 ```
 
+![](./testirovanie-modeley-12.png "Рисунок 55. Успешный запуск модульного теста (unit tests) для конкретной модели "){width=1157px height=413px}
 
+Тесты прошли успешно. Полученные результаты соответствуют ожидаемым, что говорит о правильной работе заданной логики. Но точно ли всё работает так, как задумано?
+
+Вернитесь к файлу `_finance_unit_tests.yml` и внесите изменение в одну из ожидаемых строк `{amount: 4068.33, cash_inflows: 'large'}` - замените значение для `cash_inflows` на `small`:
+
+ 
+
+```yaml
+unit_tests:
+  - name: test_cash_inflows_logic
+    description: "Проверка логики классификации притока денежных средств каршеринга."
+    model: fct_payments
+    given:
+      - input: ref('int_payments_joined_to_bookings')
+        rows:
+          - {amount: 4068.33}
+          - {amount: 2857.50}
+          - {amount: 1465.83}
+    expect:
+      rows:
+        - {amount: 4068.33, cash_inflows: 'small'}
+        - {amount: 2857.50, cash_inflows: 'medium'}
+        - {amount: 1465.83, cash_inflows: 'small'}
+```
+
+Повторно запустите тест:
+
+```bash
+dbt test --select "fct_payments,test_type:unit"
+```
+
+<image src="./testirovanie-modeley-13.png" title="Рисунок 56. Запуск модульного теста (unit tests) для конкретной модели с ошибкой " crop="0,0,100,100" objects="square,3.5438,56.4753,21.134,24.9666,,top-left" width="1552px" height="749px"/>
+
+Тест завершился с ошибкой, так как результат не совпадает с ожиданием. Для записи с суммой оплаты в размере `4068.33` рублей согласно классификации должно было определиться крупное денежное поступление (`large`). Таким образом, смоделированная ситуация вновь подтвердила корректность работы модульного теста. Верните значение для `cash_inflows` (`large`) и сохраните тест.
+
+ 
