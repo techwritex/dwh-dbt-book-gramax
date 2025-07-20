@@ -260,81 +260,74 @@ dbt test --select "test_type:generic"
 
 ### Подготовка к модульному тесту
 
-Представьте, что возникла задача добавить в какую-то модель новый столбец, которого нет в исходных данных. Например, нужно добавить классификацию автомобилей по пробегу (`mileage`).
+Представьте, что у бизнеса возникла потребность дополнительной аналитики, которой не было в исходных данных. Из этой потребности сформировалась техническая задача по добавлению в какую-то существующую модель нового столбца. Например, нужно добавить классификацию притока денежных средств на основе суммы оплаты (`amount`).
 
-Упрощенная логика классификации по пробегу (без учета возраста автомобилей):
+Упрощенная логика классификации притока денежных средств за пользование автомобилями компании:
 
--  малый пробег (low): до 60 000 км;
+-  небольшие денежные поступления (small): до 1500 рублей;
 
--  средний пробег (average): от 60 000 до 150 000 км;
+-  средние денежные поступления (medium): от 1500 до 3000 рублей;
 
--  большой пробег (high): более 150 000 км.
+-  крупные денежные поступления (large): более 3000 рублей.
 
-Так как ранее было отмечено, что все преобразования выполняются на промежуточном слое, то внесите дополнения по указанной выше логике в модель `int_cars_joined_to_categories.sql`. 
+Так как ранее было отмечено, что все преобразования выполняются на промежуточном слое, то внесите дополнения по указанной выше логике в модель `int_payments_joined_to_bookings.sql.`
 
 Откройте данный файл и замените его код на следующий (или просто добавьте строки, которые относятся к новой логике):
 
 ```sql
-with cars as (
+with payments as (
 
     select 
 
-        car_id, 
-        brand, 
-        model, 
-        category_id, 
-        car_year, 
-        vin, 
-        licence_plate, 
-        mileage,
+        payment_id, 
+        created_at, 
+        booking_id, 
+        amount,
 
         case 
-            when mileage < 60000 then 'low'
-            when mileage between 60000 and 150000 then 'average'
-            else 'low'
-        end as mileage_type
+            when amount < 1500 then 'small'
+            when amount between 1500 and 3000 then 'medium'
+            else 'large'
+        end as cash_inflows
 
-    from {{ ref('stg_pg__cars') }}
+    from {{ ref('stg_pg__payments') }}
 
 ),
 
-categories as (
+bookings as (
 
     select
 
-        category_id, 
-        category_text, 
-        rate
+        booking_id, 
+        created_at, 
+        customer_id,
+		car_id
 
-    from {{ ref('stg_pg__categories') }}
+    from {{ ref('int_bookings_joined_to_customers_and_cars') }}
 
-), 
+),
 
-cars_joined_to_categories as (
+payments_joined_to_bookings as(
 
-    select
+    select 
 
-        cars.car_id, 
-        cars.brand, 
-        cars.model, 
-        categories.category_text, 
-        categories.rate,
-        cars.car_year, 
-        cars.vin, 
-        cars.licence_plate, 
-        cars.mileage,
-        cars.mileage_type
+        payments.payment_id, 
+        payments.created_at, 
+        bookings.customer_id,
+        bookings.car_id, 
+        payments.amount,
+        payments.cash_inflows
 
-    from cars
+    from payments
 
-    left join categories
-    on cars.category_id = categories.category_id
+    left join bookings
+    on payments.booking_id = bookings.booking_id
 
 )
 
-select * from cars_joined_to_categories
+select * from payments_joined_to_bookings
 ```
 
-![](./testirovanie-modeley-10.png "Рисунок 53. Добавление новой логики в промежуточную модель (автомобили) "){width=1912px height=1098px}
+<image src="./testirovanie-modeley-10.png" title="Рисунок 53. Добавление новой логики в промежуточную модель (оплата) " crop="0,0,100,100" objects="square,50.2822,47.8873,42.6943,20.4225,,top-left" width="1912px" height="1098px"/>
 
 
