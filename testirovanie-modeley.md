@@ -257,3 +257,84 @@ dbt test --select "test_type:generic"
 -  выявленные ранее ошибки логики;
 
 -  случаи, которые еще не встречались в транзакционных данных и которые нужно обработать.
+
+### Подготовка к модульному тесту
+
+Представьте, что возникла задача добавить в какую-то модель новый столбец, которого нет в исходных данных. Например, нужно добавить классификацию автомобилей по пробегу (`mileage`).
+
+Упрощенная логика классификации по пробегу (без учета возраста автомобилей):
+
+-  малый пробег (low): до 60 000 км;
+
+-  средний пробег (average): от 60 000 до 150 000 км;
+
+-  большой пробег (high): более 150 000 км.
+
+Так как ранее было отмечено, что все преобразования выполняются на промежуточном слое, то внесите дополнения по указанной выше логике в модель `int_cars_joined_to_categories.sql`. 
+
+Откройте данный файл и замените его код на следующий (или просто добавьте строки, которые относятся к новой логике):
+
+```sql
+with cars as (
+
+    select 
+
+        car_id, 
+        brand, 
+        model, 
+        category_id, 
+        car_year, 
+        vin, 
+        licence_plate, 
+        mileage,
+
+        case 
+            when mileage < 60000 then 'low'
+            when mileage between 60000 and 150000 then 'average'
+            else 'low'
+        end as mileage_type
+
+    from {{ ref('stg_pg__cars') }}
+
+),
+
+categories as (
+
+    select
+
+        category_id, 
+        category_text, 
+        rate
+
+    from {{ ref('stg_pg__categories') }}
+
+), 
+
+cars_joined_to_categories as (
+
+    select
+
+        cars.car_id, 
+        cars.brand, 
+        cars.model, 
+        categories.category_text, 
+        categories.rate,
+        cars.car_year, 
+        cars.vin, 
+        cars.licence_plate, 
+        cars.mileage,
+        cars.mileage_type
+
+    from cars
+
+    left join categories
+    on cars.category_id = categories.category_id
+
+)
+
+select * from cars_joined_to_categories
+```
+
+![](./testirovanie-modeley-10.png "Рисунок 53. Добавление новой логики в промежуточную модель (автомобили) "){width=1912px height=1098px}
+
+
