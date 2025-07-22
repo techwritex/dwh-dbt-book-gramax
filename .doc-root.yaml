@@ -7,3 +7,26 @@ language: en
 versions:
   - v1.0
 description: Руководство по разработке хранилищ данных с dbt
+link:
+  name: dwh-dbt-book-gramax
+  pathname: github.com/techwritex/dwh-dbt-book-gramax/master/-
+  lastVisited: github.com/techwritex/dwh-dbt-book-gramax/master/-/dopolnitelnye-resursy
+  logo: favicon-32x32.png
+  title: Хранилище данных с dbt
+  query: {}
+  group: null
+  code: ""
+  style: null
+  description: Руководство по разработке хранилищ данных с dbt
+  order: 999999
+  isCloning: false
+  cloneCancelDisabled: false
+  redirectOnClone: null
+relatedLinks: []
+name: dwh-dbt-book-gramax
+repositoryName: dwh-dbt-book-gramax
+sourceName: github.com
+userInfo:
+  mail: vmyusupov@gmail.com
+  name: techwritex
+  id: vmyusupov@gmail.com
