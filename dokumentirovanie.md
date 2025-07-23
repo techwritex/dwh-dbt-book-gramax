@@ -84,4 +84,8 @@ models:
 
 ![](./dokumentirovanie-2.png "Рисунок 58. Добавление описания столбцов модели fct_payments"){width=1620px height=1012px}
 
-Теперь добавьте описание к одной из таблиц измерений. Но прежде также переименуйте созданный для тестов файл `_dimensions_tests.yml` в `_dimensions__models.yml`.
+Теперь добавьте описание к одной из таблиц измерений. Но прежде также переименуйте созданный для тестов в папке `models/marts/core/` файл `_dimensions_tests.yml` в `_dimensions__models.yml`.
+
+<image src="./dokumentirovanie-3.png" title="Рисунок 59. Переименование файла с тестами для общих моделей" crop="0,0,100,100" objects="square,6.1372,49.47,26.8626,5.6537,,top-left" width="1840px" height="1048px"/>
+
+
