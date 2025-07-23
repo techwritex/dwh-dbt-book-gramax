@@ -88,4 +88,53 @@ models:
 
 <image src="./dokumentirovanie-3.png" title="Рисунок 59. Переименование файла с тестами для общих моделей" crop="0,0,100,100" objects="square,6.1372,49.47,26.8626,5.6537,,top-left" width="1840px" height="1048px"/>
 
+Добавьте в `_dimensions__models.yml` описание для всех столбцов модели `dim_cars.sql`:
+
+```yaml
+version: 2
+
+models:
+  - name: dim_customers
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+  - name: dim_cars
+    description: Справочник автомобилей
+    columns:
+      - name: car_id
+        description: Идентификатор автомобиля
+        tests:
+          - unique
+          - not_null
+      - name: category_text
+        description: Категория автомобиля
+        tests:
+          - accepted_values:
+              values: ['business', 'cargo', 'comfort', 'electro', 'standart']
+      - name: brand 
+        description: Марка автомобиля
+      - name: model 
+        description: Модель автомобиля
+      - name: rate
+        description: Тариф аренды автомобиля 
+      - name: car_year
+        description: Год выпуска
+      - name: vin 
+        description: VIN номер
+      - name: licence_plate 
+        description: Государственный регистрационный номер
+      - name: mileage
+        description: Пробег (км)
+  - name: dim_calendar
+    columns:
+      - name: date_id
+        tests:
+          - unique
+          - not_null
+```
+
+![](./dokumentirovanie-4.png "Рисунок 60. Добавление описания столбцов модели dim_cars"){width=1892px height=1052px}
+
 
