@@ -123,10 +123,10 @@ git branch -M main
 
 ![](./razvertyvanie-dbt-proekta-10.png "Рисунок 17. Ссылка на репозиторий"){width=755px height=566px}
 
-Вернитесь в терминал VS Code (или командную строку) и укажите скопированный репозиторий:
+Вернитесь в терминал VS Code (или командную строку) и укажите скопированный репозиторий (замените на свой):
 
 ```bash
-git remote add origin https://github.com/techwritex/carsharing-dbt.git
+git remote add origin https://github.com/YOUR-ACCOUNT/carsharing-dbt.git
 ```
 
 Отправьте локальный проект в репозиторий GitHub:
