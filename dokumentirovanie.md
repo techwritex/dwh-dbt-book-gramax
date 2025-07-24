@@ -167,7 +167,7 @@ models:
 
 Теперь примените созданный блок документирования. Откройте файлы с описаниями таблиц фактов и измерений (`_finance__models.yml` и `_dimensions__models.yml`) и замените описание для столбца `car_id` на блок документирования по аналогии с применением функций `ref()` и `source()`:
 
-<image src="./dokumentirovanie-6.png" title="Рисунок 62. Добавление блока документирования для модели dim_cars" crop="0,0,100,100" objects="square,41.2405,65.7244,34.2585,5.1237,,top-left" width="1842px" height="970px"/>
+<image src="./dokumentirovanie-6.png" title="Рисунок 62. Добавление блока документирования для модели dim_cars" crop="0,0,100,100" objects="square,41.3251,65.371,36.2649,4.947,,top-left" width="1842px" height="970px"/>
 
 <image src="./dokumentirovanie-7.png" title="Рисунок 63. Добавление блока документирования для модели fct_payments" crop="0,0,100,100" objects="square,41.9742,91.1661,39.3448,4.947,,top-left" width="1828px" height="1008px"/>
 
