@@ -21,7 +21,7 @@ title: "Определение источников "
 
 </note>
 
-Скачайте по [ссылке](https://storage.yandexcloud.net/carsharing-dbt/carsharing_db.sql) бэкап стартовой базы данных проекта.
+Скачайте по [бэкап](https://storage.yandexcloud.net/carsharing-dbt/backup/carsharing_db.sql) стартовой базы данных проекта (или же исходные данные для каждой таблицы в виде [CSV-файлов](https://storage.yandexcloud.net/carsharing-dbt/csv/)).
 
 Откройте pgAdmin и загрузите скачанный файл в PostgreSQL.
 
