@@ -115,3 +115,7 @@ dbt snapshot
 После запуска команды вы сразу увидите лог с информацией об успешности запуска и формировании снэпшотов, или же возникшей ошибке:
 
 ![](./istoricheskie-dannye.png "Рисунок 69. Запуск снэпшота"){width=993px height=413px}
+
+Проверьте полученный результат в базе. Согласно выполненным настройками создалась новая схема `snapshots` с таблицей `customers_snapshot`:
+
+<image src="./istoricheskie-dannye-3.png" crop="0,0,100,100" objects="square,6.1873,45.788,22.0736,4.3478,,top-left&square,6.1873,91.5761,21.7391,7.0652,,top-left" width="1196px" height="736px" float="center"/>
