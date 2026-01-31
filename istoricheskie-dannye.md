@@ -120,7 +120,7 @@ dbt snapshot
 
 Согласно выполненным настройками создалась новая схема `snapshots` с таблицей `customers_snapshot`:
 
-<image src="./istoricheskie-dannye-3.png" title="Рисунок 70" crop="0,0,100,100" objects="square,6.1873,45.788,22.0736,4.3478,,top-left&square,6.1873,91.5761,21.7391,7.0652,,top-left" width="1196px" height="736px" float="center"/>
+<image src="./istoricheskie-dannye-3.png" title="Рисунок 70. Созданный в базе снэпшот" crop="0,0,100,100" objects="square,6.1873,45.788,22.0736,4.3478,,top-left&square,6.1873,91.5761,21.7391,7.0652,,top-left" width="1196px" height="736px" float="center"/>
 
 ## Пример отслеживания изменений
 
@@ -131,7 +131,7 @@ select * from public.customer
 where customer_id = 1;
 ```
 
-<image src="./istoricheskie-dannye-4.png" title="Рисунок 71" crop="0,0,100,100" objects="square,0.7241,9.1803,13.9984,5.2459,,top-left&square,0.9654,90.4918,13.757,5.5738,,top-left&square,16.0097,24.5902,25.3419,10.4918,,top-left" width="1243px" height="610px" float="center"/>
+<image src="./istoricheskie-dannye-4.png" title="Рисунок 71. Выбор примера для отслеживания изменений" crop="0,0,100,100" objects="square,0.7241,9.1803,13.9984,5.2459,,top-left&square,0.9654,90.4918,13.757,5.5738,,top-left&square,16.0097,24.5902,25.3419,10.4918,,top-left" width="1243px" height="610px" float="center"/>
 
 Предположим, что данный пользователь (Агата Морозова) сменил фамилию и, соответственно, водительское удостоверение. При внесении изменений в исходной системе также обновится значение временной метки.
 
@@ -154,7 +154,7 @@ select * from public.customer
 where customer_id = 1;
 ```
 
-<image src="./istoricheskie-dannye-5.png" title="Рисунок 72" crop="0,0,100,100" objects="square,32.5806,54.4118,6.8548,12.4183,,top-left&square,45.4032,54.5752,24.1129,12.2549,,top-left&square,89.9194,54.902,10.0806,11.7647,,top-left" width="1240px" height="612px" float="center"/>
+<image src="./istoricheskie-dannye-5.png" title="Рисунок 72. Обновление значений некоторых полей по выбранному примеру" crop="0,0,100,100" objects="square,32.5806,54.4118,6.8548,12.4183,,top-left&square,45.4032,54.5752,24.1129,12.2549,,top-left&square,89.9194,54.902,10.0806,11.7647,,top-left" width="1240px" height="612px" float="center"/>
 
 Так как снэпшот `customers_snapshot` построен на staging-модели `stg_pg__customers` сначала потребуется обновить данную модель с учетом изменений в исходной таблице `customer`.
 
@@ -164,7 +164,7 @@ where customer_id = 1;
 dbt run --select stg_pg__customers
 ```
 
-![](./istoricheskie-dannye-6.png "Рисунок 73"){width=1051px height=413px}
+![](./istoricheskie-dannye-6.png "Рисунок 73. Обновление staging-модели с информацией о заказчиках"){width=1051px height=413px}
 
 Посмотрите изменения в базе. Выполните запрос:
 
@@ -173,7 +173,7 @@ select * from staging.stg_pg__customers
 where customer_id = 1;
 ```
 
-<image src="./istoricheskie-dannye-7.png" title="Рисунок 73" crop="0,0,100,100" objects="square,1.2608,8.1991,15.918,5.1245,,top-left&square,1.6548,92.2401,15.6816,5.1245,,top-left&square,17.8093,22.2548,31.3633,8.6384,,top-left" width="1269px" height="683px" float="center"/>
+<image src="./istoricheskie-dannye-7.png" title="Рисунок 73. Проверка staging-модели в базе" crop="0,0,100,100" objects="square,1.2608,8.1991,15.918,5.1245,,top-left&square,1.6548,92.2401,15.6816,5.1245,,top-left&square,17.8093,22.2548,31.3633,8.6384,,top-left" width="1269px" height="683px" float="center"/>
 
 Модель staging-слоя в виде представления в базе успешно обновилась. Вернитесь в VS Code или командную строку и повторите команду создания снэпшотов:
 
@@ -181,7 +181,7 @@ where customer_id = 1;
 dbt snapshot
 ```
 
-![](./istoricheskie-dannye-8.png "Рисунок 74"){width=1003px height=413px}
+![](./istoricheskie-dannye-8.png "Рисунок 74. Создание снэпшота"){width=1003px height=413px}
 
 Лог указывает на успешное выполнение задания, поэтому можно смело проверять изменения в базе. Вернитесь pgAdmin и выполните запрос:
 
@@ -204,7 +204,7 @@ from snapshots.customers_snapshot
 where customer_id = 1;
 ```
 
-<image src="./istoricheskie-dannye-9.png" title="Рисунок 75" crop="0,0,100,100" objects="square,2,25.0831,17.3043,4.8173,,top-left&square,2.087,81.3953,17.3913,8.1395,,top-left&square,21.1304,25.2492,29.4783,36.2126,,top-left" width="1150px" height="602px" float="center"/>
+<image src="./istoricheskie-dannye-9.png" title="Рисунок 75. Проверка изменений в снэпшоте" crop="0,0,100,100" objects="square,2,25.0831,17.3043,4.8173,,top-left&square,2.087,81.3953,17.3913,8.1395,,top-left&square,21.1304,25.2492,29.4783,36.2126,,top-left" width="1150px" height="602px" float="center"/>
 
 Как видно, снэпшот содержит две строки по выбранному заказчику -- до и после изменения. Актуальной является та, у которой значение `dbt_valid_to` равно `9999-12-31 00:00:00`.
 

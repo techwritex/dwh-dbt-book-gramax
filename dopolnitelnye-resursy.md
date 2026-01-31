@@ -3,12 +3,13 @@ order: 13
 title: Дополнительные ресурсы
 ---
 
-В данном разделе представлены ссылки на различные ресурсы, которые помогут более детально разобраться с dbt&trade;.
+В данном разделе представлены ссылки на различные ресурсы, которые помогут более детально разобраться с dbt™.
 
-| Ресурс                                                                                                                  | Примечание                                                                |
-|-------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [dbt Developer Hub](https://docs.getdbt.com/)                                                                           | Портал знаний по всем продуктам dbt&trade;.                                      |
-| [Product docs](https://docs.getdbt.com/docs/introduction)                                                               | Документация по dbt Core (часть общего портала)                           |
-| [References](https://docs.getdbt.com/reference/references-overview)                                                     | Справочные материалы по разработке с использованием dbt&trade; (dbt и dbt Core). |
-| [Courses](https://learn.getdbt.com/catalog)                                                                             | Курсы по dbt&trade; (от dbt Labs).                                               |
-| [Курс по dbt для инженеров данных](https://www.youtube.com/watch?v=JXBAkOvAu5A&list=PLzvuaEeolxkyx7XruoatSFdYDyLji_o1J) | Очень подробный видео курс по dbt&trade; на русском языке от Владимира Амелина.  |
+| Ресурс                                                                                                                  | Примечание                                                                 |
+|-------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| [dbt Developer Hub](https://docs.getdbt.com/)                                                                           | Портал знаний по всем продуктам dbt™.                                      |
+| [Product docs](https://docs.getdbt.com/docs/introduction)                                                               | Документация по dbt Core (часть общего портала)                            |
+| [References](https://docs.getdbt.com/reference/references-overview)                                                     | Справочные материалы по разработке с использованием dbt™ (dbt и dbt Core). |
+| [Courses](https://learn.getdbt.com/catalog)                                                                             | Курсы по dbt™ (от dbt Labs).                                               |
+| [Курс по dbt для инженеров данных](https://www.youtube.com/watch?v=JXBAkOvAu5A&list=PLzvuaEeolxkyx7XruoatSFdYDyLji_o1J) | Очень подробный видео курс по dbt™ на русском языке от Владимира Амелина.  |
+| [Data Engineering with dbt](https://www.packtpub.com/en-mt/product/data-engineering-with-dbt-9781803246284)             | Прекрасная книга по dbt™ от Роберто Загни (на английском языке).           |
