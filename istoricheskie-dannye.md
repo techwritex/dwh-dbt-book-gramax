@@ -122,15 +122,59 @@ dbt snapshot
 
 ## Пример отслеживания изменений
 
-Для примера возьмите несколько произвольных записей  и сымитируйте их изменение в системе-источнике (таблица `public.customer`).
+Для примера возьмите произвольную запись  и сымитируйте изменение в системе-источнике (таблица `public.customer`).
 
 ```postgresql
 select * from public.customer
-where customer_id in (1,2)
+where customer_id = 1;
 ```
 
-<image src="./istoricheskie-dannye-4.png" title="Рисунок 71" crop="0,0,100,100" objects="square,0.8634,9.4463,13.5793,4.5603,,top-left&square,1.0989,90.8795,13.1083,5.5375,,top-left&square,15.5416,25.2443,25.1962,12.3779,,top-left" width="1274px" height="614px" float="center"/>
+<image src="./istoricheskie-dannye-4.png" title="Рисунок 71" crop="0,0,100,100" objects="square,0.7241,9.1803,13.9984,5.2459,,top-left&square,0.9654,90.4918,13.757,5.5738,,top-left&square,16.0097,24.5902,25.3419,10.4918,,top-left" width="1243px" height="610px" float="center"/>
 
-Предположим, что первый пользователь (Агата Морозова) сменил фамилию и, соответственно, водительское удостоверение, а второй (Александр Баранов) -- номер телефона и адрес электронной почты. При внесении изменений в исходной системе также обновится значение временной метки.
+Предположим, что данный пользователь (Агата Морозова) сменил фамилию и, соответственно, водительское удостоверение. При внесении изменений в исходной системе также обновится значение временной метки.
 
-Выполните следующий запрос для обновления данных в исходной таблице:
+Выполните следующий запрос для имитации обновления данных в исходной таблице:
+
+```postgresql
+update public.customer
+	set 
+		last_name='Кристи', 
+		driving_licence_number='5716681479', 
+		driving_licence_valid_from='2026-01-01', 
+		last_update='2026-01-30 09:00:00'
+	where customer_id = 1;
+```
+
+Проверьте еще раз данные выбранного заказчика, выполните запрос:
+
+```postgresql
+select * from public.customer
+where customer_id = 1;
+```
+
+<image src="./istoricheskie-dannye-5.png" title="Рисунок 72" crop="0,0,100,100" objects="square,32.5806,54.4118,6.8548,12.4183,,top-left&square,45.4032,54.5752,24.1129,12.2549,,top-left&square,89.9194,54.902,10.0806,11.7647,,top-left" width="1240px" height="612px" float="center"/>
+
+Так как снэпшот `customers_snapshot` построен на staging-модели `stg_pg__customers` сначала потребуется обновить данную модель с учетом изменений в исходной таблице `customer`.
+
+Запустите построение модели `stg_pg__customers`:
+
+```bash
+dbt run --select stg_pg__customers
+```
+
+![](./istoricheskie-dannye-6.png "Рисунок 73"){width=1051px height=413px}
+
+Посмотрите изменения в базе. Выполните запрос:
+
+```postgresql
+select * from staging.stg_pg__customers
+where customer_id = 1
+```
+
+![](./istoricheskie-dannye-7.png "Рисунок 73"){width=1269px height=683px}
+
+Теперь выполните команду создания снэпшотов:
+
+```bash
+dbt snapshot
+```
