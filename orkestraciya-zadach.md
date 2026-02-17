@@ -27,24 +27,22 @@ title: Оркестрация задач
 
 В настоящее время существует несколько инструментов, которые можно использовать для оркестрации задач dbt™. Среди них можно выделить, например, Apache Airflow, Dagster, Prefect и другие.
 
-Каждый из этих инструментов обладает определенными преимуществами, которые можно использоваться, исходя из целей и потребностей текущего проекта. Тем не менее в индустрии сложился некий негласный «стандарт» для оркестрации задач dbt Core через взаимодействие с Apache Airflow. Поэтому на интеграции именно с этим инструментом мы остановимся.
+Каждый из этих инструментов обладает определенными преимуществами, которые можно использоваться, исходя из целей и потребностей  проекта. Тем не менее в индустрии сложился некий негласный «стандарт» для оркестрации задач dbt Core через взаимодействие с Apache Airflow. Поэтому на интеграции именно с этим инструментом мы остановимся.
 
 ## Оркестрация с помощью Airflow
 
-**Steps to Install Cosmos without Docker**
+### Использование Astronomer Cosmos
 
-1. **Set up Virtual Environment:** Create and activate a virtual environment (`python -m venv venv`, then `source venv/bin/activate` or `venv\Scripts\activate` on Windows).
+Ранее было отмечено, что использование связки инструментов Airflow и dbt Core является «стандартом». Если быть более точным, то в техническом решении этого «стандарта» нужно выделить применение библиотеки с открытым кодом Astronomer Cosmos. Она позволяет автоматически преобразовывать модели dbt Core в DAG  Airflow, обеспечивая наглядное представление зависимостей dbt-моделей, планирование и оркестрацию задач, а также мониторинг их выполнения. 
 
-2. **Install Airflow:** Install Apache Airflow using pip: `pip install apache-airflow`.
+У данного технического решения можно выделить ряд преимуществ, среди которых основными, на мой взгляд, являются следующие: 
 
-3. **Install Cosmos:** Install the astronomer-cosmos package: `pip install astronomer-cosmos`.
+-   запуск dbt-проекта внутри Airflow без необходимости написания кода вручную;
 
-4. **Install dbt:** Install your specific dbt adapter (e.g., `pip install dbt-snowflake` or `dbt-bigquery`).
+-  автоматическое создание задач Airflow для каждой dbt-модели.
 
-5. **Configure dbt Project:** Move your dbt project into the Airflow DAGs directory.
+Другими словами, Astronomer Cosmos помогает перенести фокус внимания разработчиков на проработку и создание качественных dbt-моделей, а не на технической реализации их запуска в Airflow.
 
-6. **Create DAG:** Create a `my_cosmos_`[`dag.py`](http://dag.py) file to define your DAG using the `DbtDag` object.
+В продуктивных решениях необходимо использовать именно вариант с Astronomer Cosmos. Но так как в данном руководстве представлен учебный проект, то рассмотрим вариант с «ручной» интеграцией dbt Core и Airflow для лучшего понимания и небольшого погружения в Airflow.
 
-![](./orkestraciya-zadach.png){width=1394px height=1106px}
-
-![](./orkestraciya-zadach-2.png){width=1398px height=1106px}
+### Использование BashOperator
