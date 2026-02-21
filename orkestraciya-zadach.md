@@ -43,11 +43,11 @@ title: Оркестрация задач
 
 Другими словами, Astronomer Cosmos помогает перенести фокус внимания разработчиков на проработку и создание dbt-моделей, а не на техническую реализацию их запуска в Airflow.
 
-В сложных и продуктивных решениях необходимо использовать  вариант интеграции с Astronomer Cosmos. Но так как в данном руководстве представлен учебный проект, то рассмотрим нативный подход интеграции dbt Core и Airflow через `BashOperator` для лучшего понимания жизненного цикла задач и небольшого погружения в Airflow.
+В сложных и продуктивных решениях необходимо использовать  вариант интеграции с Astronomer Cosmos. Но так как в данном руководстве представлен учебный проект, то рассмотрим нативный подход интеграции dbt Core и Airflow через выполнение bash-команд для лучшего понимания жизненного цикла задач и небольшого погружения в Airflow.
 
-### Использование BashOperator
+### Выстраивание процесса через bash-команды
 
-`BashOperator` - это базовый оператор Airflow для выполнения bash/shell-команд. Использование этого оператора можно назвать минималистичным подходом интеграции dbt Core и Airflow.
+Использование bash/shell-команд можно назвать минималистичным подходом интеграции dbt Core и Airflow.
 
 <note type="lab" title="Примечание">
 
@@ -165,11 +165,11 @@ with DAG(
 
 Теперь настало время автоматизации dbt-задач с помощью декоратора `@task.bash`, который превращает обычную Python-функцию в задачу Airflow, выполняющую bash-команды. `@task.bash` является, скажем так, более современной альтернативой классическому оператору `BashOperator` предыдущих версий Airflow. При выполнении функции возвращается строка с командой.
 
-Добавьте в файл  `dbt_pipeline_carsharing.py` dbt-команды по каждому из этапов. 
+Добавьте в файл  `dbt_pipeline_carsharing.py` dbt-команды по каждому из этапов.
 
 <note type="lab" title="Примечание">
 
-Укажите вместе `/opt/dbt/carsharing` путь к вашему проекту.
+Укажите вместо `/opt/dbt/carsharing` путь к проекту на вашем компьютере.
 
 </note>
 
@@ -227,13 +227,32 @@ with DAG(
         """
 ```
 
-Для наглядного 
+Для визуального окончания пайплайна добавьте этап «Окончание рабочего процесса»:
 
-Финальный файл `dbt_pipeline_carsharing.py`:
+```python
+    # Окончание рабочего процесса
+    end = EmptyOperator(task_id='end')
+```
+
+ В завершение укажите порядок выполнения задач:
+
+```python
+    # Определение последовательности задач
+    (
+        start 
+        >> install_dbt_deps() 
+        >> run_dbt_models() 
+        >> run_dbt_tests() 
+        >> generate_docs() 
+        >> end
+    )
+```
+
+Финальный файл `dbt_pipeline_carsharing.py` имеет следующий вид:
 
 ```python
 from airflow import DAG
-from airflow.decorators import task, task_group
+from airflow.decorators import task
 from airflow.providers.standard.operators.empty import EmptyOperator
 from datetime import datetime
 
@@ -309,20 +328,19 @@ with DAG(
             echo "Формирование документации..."
             cd /opt/dbt/carsharing && \
             dbt docs generate
-            echo "Документация создана"
+            echo "Документация сформирована"
         """
 
     # Окончание рабочего процесса
     end = EmptyOperator(task_id='end')
 
-    # Определение потока выполнения
+    # Определение последовательности задач
     (
         start 
         >> install_dbt_deps() 
         >> run_dbt_models() 
         >> run_dbt_tests() 
         >> generate_docs() 
-        >> send_success_notification() 
         >> end
     )
 ```
