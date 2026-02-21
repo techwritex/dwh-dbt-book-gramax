@@ -160,3 +160,111 @@ with DAG(
 # Начало рабочего процесса
     start = EmptyOperator(task_id='start')
 ```
+
+Финальный файл:
+
+```python
+from airflow import DAG
+from airflow.decorators import task, task_group
+from airflow.providers.standard.operators.empty import EmptyOperator
+from datetime import datetime
+from typing import Dict
+
+with DAG(
+    dag_id='dbt_pipeline_carsharing',
+    description='dbt пайплайн для проекта carsharing',
+    schedule='@daily',
+    start_date=datetime(2026, 2, 17),
+    catchup=False,
+    tags=['dbt', 'carsharing'],
+    doc_md="""
+    # Пайплайн dbt для Carsharing
+    
+    ## Этапы рабочего процесса:
+    - Начало рабочего процесса
+    - Установка зависимостей
+    - Запуск моделей
+    - Запуск тестов
+    - Формирование документации
+    - Окончание рабочего процесса
+    """
+) as dag:
+
+    # Начало рабочего процесса
+    start = EmptyOperator(task_id='start')
+
+    # Установка зависимостей
+    @task.bash
+    def install_dbt_deps() -> str:
+        """
+        Установка зависимостей dbt
+        """
+        return """
+            echo "Установка зависимостей dbt..."
+            cd /Users/vovix/Documents/Projects/carsharing-dwh-project-space/carsharing && \
+            dbt deps
+            echo "Зависимости установлены"
+        """
+
+    # Запуск моделей
+    @task.bash
+    def run_dbt_models() -> str:
+        """
+        Запуск всех моделей dbt
+        """
+        return """
+            echo "Запуск моделей dbt..."
+            cd /Users/vovix/Documents/Projects/carsharing-dwh-project-space/carsharing && \
+            dbt run --full-refresh
+            echo "Модели обновлены"
+        """
+
+    # Запуск тестов
+    @task.bash
+    def run_dbt_tests() -> str:
+        """
+        Запуск тестов для моделей
+        """
+        return """
+            echo "Запуск тестов dbt..."
+            cd /Users/vovix/Documents/Projects/carsharing-dwh-project-space/carsharing && \
+            dbt test
+            echo "Тесты пройдены"
+        """
+
+    # Генерация документации
+    @task.bash
+    def generate_docs() -> str:
+        """
+        Формирование документации dbt
+        """
+        return """
+            echo "Формирование документации..."
+            cd /Users/vovix/Documents/Projects/carsharing-dwh-project-space/carsharing && \
+            dbt docs generate
+            echo "Документация создана"
+        """
+
+    # Уведомление об успехе
+    @task
+    def send_success_notification() -> None:
+        """
+        Уведомление об успешном завершении
+        """
+        print("Пайплайн завершён успешно!")
+        print("Все модели обновлены, протестированы и задокументированы.")
+
+    # Окончание рабочего процесса
+    end = EmptyOperator(task_id='end')
+
+    # Определение потока выполнения
+    (
+        start 
+        >> install_dbt_deps() 
+        >> run_dbt_models() 
+        >> run_dbt_tests() 
+        >> generate_docs() 
+        >> send_success_notification() 
+        >> end
+    )
+```
