@@ -157,18 +157,85 @@ with DAG(
 Исходя из понимания этапов процесса, перейдем к написанию задач. Добавьте следующий блок кода (с отступом):
 
 ```python
-# Начало рабочего процесса
+	# Начало рабочего процесса
     start = EmptyOperator(task_id='start')
 ```
 
-Финальный файл:
+Ранее уже было отмечено, что `EmptyOperator` ничего не делает и в проекте используется для визуализации начала пайплайна.
+
+Теперь настало время автоматизации dbt-задач с помощью декоратора `@task.bash`, который превращает обычную Python-функцию в задачу Airflow, выполняющую bash-команды. `@task.bash` является, скажем так, более современной альтернативой классическому оператору `BashOperator` предыдущих версий Airflow. При выполнении функции возвращается строка с командой.
+
+Добавьте в файл  `dbt_pipeline_carsharing.py` dbt-команды по каждому из этапов. 
+
+<note type="lab" title="Примечание">
+
+Укажите вместе `/opt/dbt/carsharing` путь к вашему проекту.
+
+</note>
+
+```python
+ 	# Установка зависимостей
+    @task.bash
+    def install_dbt_deps() -> str:
+        """
+        Установка зависимостей dbt
+        """
+        return """
+            echo "Установка зависимостей dbt..."
+            /opt/dbt/carsharing && \
+            dbt deps
+            echo "Зависимости установлены"
+        """
+
+    # Запуск моделей
+    @task.bash
+    def run_dbt_models() -> str:
+        """
+        Запуск всех моделей dbt
+        """
+        return """
+            echo "Запуск моделей dbt..."
+            cd /opt/dbt/carsharing && \
+            dbt run --full-refresh
+            echo "Модели обновлены"
+        """
+
+    # Запуск тестов
+    @task.bash
+    def run_dbt_tests() -> str:
+        """
+        Запуск тестов для моделей
+        """
+        return """
+            echo "Запуск тестов dbt..."
+            cd /opt/dbt/carsharing && \
+            dbt test
+            echo "Тесты пройдены"
+        """
+
+    # Генерация документации
+    @task.bash
+    def generate_docs() -> str:
+        """
+        Формирование документации dbt
+        """
+        return """
+            echo "Формирование документации..."
+            cd /opt/dbt/carsharing && \
+            dbt docs generate
+            echo "Документация создана"
+        """
+```
+
+Для наглядного 
+
+Финальный файл `dbt_pipeline_carsharing.py`:
 
 ```python
 from airflow import DAG
 from airflow.decorators import task, task_group
 from airflow.providers.standard.operators.empty import EmptyOperator
 from datetime import datetime
-from typing import Dict
 
 with DAG(
     dag_id='dbt_pipeline_carsharing',
@@ -201,7 +268,7 @@ with DAG(
         """
         return """
             echo "Установка зависимостей dbt..."
-            cd /Users/vovix/Documents/Projects/carsharing-dwh-project-space/carsharing && \
+            /opt/dbt/carsharing && \
             dbt deps
             echo "Зависимости установлены"
         """
@@ -214,7 +281,7 @@ with DAG(
         """
         return """
             echo "Запуск моделей dbt..."
-            cd /Users/vovix/Documents/Projects/carsharing-dwh-project-space/carsharing && \
+            cd /opt/dbt/carsharing && \
             dbt run --full-refresh
             echo "Модели обновлены"
         """
@@ -227,7 +294,7 @@ with DAG(
         """
         return """
             echo "Запуск тестов dbt..."
-            cd /Users/vovix/Documents/Projects/carsharing-dwh-project-space/carsharing && \
+            cd /opt/dbt/carsharing && \
             dbt test
             echo "Тесты пройдены"
         """
@@ -240,19 +307,10 @@ with DAG(
         """
         return """
             echo "Формирование документации..."
-            cd /Users/vovix/Documents/Projects/carsharing-dwh-project-space/carsharing && \
+            cd /opt/dbt/carsharing && \
             dbt docs generate
             echo "Документация создана"
         """
-
-    # Уведомление об успехе
-    @task
-    def send_success_notification() -> None:
-        """
-        Уведомление об успешном завершении
-        """
-        print("Пайплайн завершён успешно!")
-        print("Все модели обновлены, протестированы и задокументированы.")
 
     # Окончание рабочего процесса
     end = EmptyOperator(task_id='end')
