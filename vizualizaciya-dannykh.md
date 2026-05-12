@@ -159,7 +159,7 @@ models:
 
 ### Формирование связей и метрик
 
-Файл `_finance__models.yml` является «сердцем» семантического слоя проекта. Здесь будет происходить магия превращения плоских таблиц в аналитический куб. В классических BI-инструментах пришлось бы тянуть стрелочки между таблицами. В Lightdash эти действия выполняются в блоке `meta` модели фактов. Так как в учебном проекте витрины  финансово-аналитического отдела состоят из трех справочников (`dim_customers`, `dim_cars`, `dim_calendar`) и таблицы фактов (`fct_payments`), то их необходимо связать друг с другом. 
+Файл `_finance__models.yml` является «сердцем» семантического слоя проекта. Здесь будет происходить магия превращения плоских таблиц в аналитический куб. В классических BI-инструментах пришлось бы тянуть стрелочки между таблицами. В Lightdash эти действия выполняются в блоке `meta` модели фактов. Так как в учебном проекте витрины  финансово-аналитического отдела состоят из трех справочников (`dim_customers`, `dim_cars`, `dim_calendar`) и таблицы фактов (`fct_payments`), то их необходимо связать друг с другом.
 
 Откройте файл `_finance__models.yml` и для модели `fct_payments` добавьте следующие строки в блоке `meta`:
 
@@ -169,26 +169,205 @@ version: 2
 models:
   - name: fct_payments
     description: Оплата за пользование автомобилем 
-    meta:
-      joins:
-        - join: dim_customers
-          sql_on: ${fct_payments.customer_id} = ${dim_customers.customer_id}
-        - join: dim_cars
-          sql_on: ${fct_payments.car_id} = ${dim_cars.car_id}
-        - join: dim_calendar
-          sql_on: CAST(${fct_payments.created_at} AS DATE) = ${dim_calendar.full_date}
+    meta: # Обновление
+      joins: # Обновление
+        - join: dim_customers # Обновление
+          sql_on: ${fct_payments.customer_id} = ${dim_customers.customer_id} # Обновление
+        - join: dim_cars # Обновление
+          sql_on: ${fct_payments.car_id} = ${dim_cars.car_id} # Обновление
+        - join: dim_calendar # Обновление
+          sql_on: CAST(${fct_payments.created_at} AS DATE) = ${dim_calendar.full_date} # Обновление
 ...
 ```
 
 Вы только что создали связи между справочниками и таблицей фактов по соответствующим id. Теперь, выбрав таблицу платежей, аналитик или бизнес-пользователь сможет «провалиться» в характеристики машин или данные клиентов, не написав ни строчки SQL-кода. Lightdash сам подставит нужный Join в запрос.
 
-Теперь перейдем, пожалуй, к самой важной части BI-as-Code. Необходимо перенести формулы расчетов метрик из «головы аналитика» в код.
+Теперь перейдем, пожалуй, к самой важной части BI-as-Code. Необходимо перенести формулы расчетов метрик из «головы аналитика» в код. Допустим у нас будут следующие метрики:
+
+-  количество платежей,
+
+-  общая выручка,
+
+-  средний чек.
+
+Добавьте в открытый файл `_finance__models.yml` следующее содержание (комментарий «*\# Обновление*»):
+
+```yaml
+...
+columns:
+      - name: payment_id
+        description: Идентификатор оплаты
+        meta: # Обновление
+          dimension: # Обновление
+            type: string # Обновление
+          metrics: # Обновление
+            payment_count: # Обновление
+              type: count # Обновление
+              label: "Кол-во платежей" # Обновление
+        tests:
+          - unique
+          - not_null    
+
+      - name: amount
+        description: Сумма оплаты
+        meta: # Обновление
+          dimension: # Обновление
+            type: number # Обновление
+          metrics: # Обновление
+            total_revenue: # Обновление
+              type: sum # Обновление
+              label: "Общая выручка" # Обновление
+              round: 2 # Обновление
+            avg_payment: # Обновление
+              type: average # Обновление
+              label: "Средний чек" # Обновление
+              round: 2 # Обновление
+        tests:
+          - check_positive_values
+
+      - name: created_at 
+        description: Дата произведения оплаты
+        meta: # Обновление
+          dimension: # Обновление
+            type: timestamp # Обновление
+...
+```
+
+Раздел файла `columns` в dbt-проекте превращается в список доступных полей в BI. Разберем эти поля.
+
+#### payment_id (Идентификатор оплаты)
+
+-  `meta: dimension: type: string` - по аналогии с измерениями нужно явно указать тип данного поля в виде строки, чтобы Lightdash не «суммировал» идентификаторы.
+
+-  `meta: metrics:` - начало описания расчетных показателей.
+
+   -  `payment_count:` - техническое имя метрики,
+
+   -  `type: count` - Lightdash превратит эту метрику в `COUNT(payment_id)`,
+
+   -  `label: "Общая выручка"` - название метрики, которое увидят бизнес-пользователи в списке полей.
+
+#### amount (Сумма оплаты)
+
+-  `meta: metrics:` - начало описания расчетных показателей.
+
+   -  `total_revenue:` - техническое имя метрики,
+
+   -  `type: sum` - Lightdash обернет поле в `SUM(amount)`,
+
+   -  `label: "Общая выручка"` - название метрики, которое увидят бизнес-пользователи в списке полей.
+
+   -  `round: 2` - автоматическое округление до сотых на уровне визуализации,
+
+   -  `avg_payment:` - вторая метрика для того же поля, которая превратится в `AVG(amount)`.
+
+#### created_at (Дата призведения оплаты)
+
+-  `meta: dimension: type: timestamp` - Lightdash автоматически создаст для этого поля иерархию (день, неделя, месяц, год), что позволит строить тренды одной кнопкой в интерфейсе BI.
+
+Добавьте также тип измерения для всех оставшихся полей. Окончательный вид файла `_finance__models.yml`:
+
+```yaml
+version: 2
+
+models:
+  - name: fct_payments
+    description: Оплата за пользование автомобилем 
+    meta: # Обновление
+      joins: # Обновление
+        - join: dim_customers # Обновление
+          sql_on: ${fct_payments.customer_id} = ${dim_customers.customer_id} # Обновление
+        - join: dim_cars # Обновление
+          sql_on: ${fct_payments.car_id} = ${dim_cars.car_id} # Обновление
+        - join: dim_calendar # Обновление
+          sql_on: CAST(${fct_payments.created_at} AS DATE) = ${dim_calendar.full_date} # Обновление
+
+    columns:
+      - name: payment_id
+        description: Идентификатор оплаты
+        meta: # Обновление
+          dimension: # Обновление
+            type: string # Обновление
+          metrics: # Обновление
+            payment_count: # Обновление
+              type: count # Обновление
+              label: "Кол-во платежей" # Обновление
+        tests:
+          - unique
+          - not_null    
+
+      - name: amount
+        description: Сумма оплаты
+        meta: # Обновление
+          dimension: # Обновление
+            type: number # Обновление
+          metrics: # Обновление
+            total_revenue: # Обновление
+              type: sum # Обновление
+              label: "Общая выручка" # Обновление
+              round: 2 # Обновление
+            avg_payment: # Обновление
+              type: average # Обновление
+              label: "Средний чек" # Обновление
+              round: 2 # Обновление
+        tests:
+          - check_positive_values
+
+      - name: created_at 
+        description: Дата произведения оплаты
+        meta: # Обновление
+          dimension: # Обновление
+            type: timestamp # Обновление
+
+      - name: customer_id
+        description: Идентификатор заказчика (арендатора)
+        meta: # Обновление
+          dimension: # Обновление
+            type: string # Обновление
+
+      - name: car_id 
+        description: '{{ doc("car_id") }}'
+        meta: # Обновление
+          dimension: # Обновление
+            type: string # Обновление
+
+      - name: cash_inflows
+        description: "Классификация платежа по сумме (small/medium/large)"
+        meta: # Обновление
+          dimension: # Обновление
+            type: string # Обновление
+            label: "Сегмент платежа" # Обновление
+```
 
 <note type="lab" title="Примечание">
 
 Подробное описание всех типов метрик (count, sum, average и др.) и доступных параметров для их тонкой настройки в YAML-файлах можно найти в официальной документации: [**Lightdash: Adding metrics to your project**](https://docs.lightdash.com/references/metrics)
 
 </note>
+
+<image src="./vizualizaciya-dannykh.png" title="Рисунок 80. Настройки dbt-проекта для Lightdash" crop="0,0,100,100" objects="square,4.4214,91.25,25.9825,4.1964,,top-left&square,4.476,32.9464,25.3821,4.0179,,top-left&square,4.3668,52.2321,25.0546,4.2857,,top-left" width="1832px" height="1120px" float="center"/>
+
+## Сохранение проекта в GitHub
+
+Загрузите измененные файлы проекта git-репозитрий:
+
+```bash
+git add .
+```
+
+Добавьте сообщение для коммита:
+
+```bash
+git commit -m "lightdash"
+```
+
+Отправьте локальный проект в репозиторий GitHub:
+
+```bash
+git push
+```
+
+Теперь актуальный код проекта хранится в GitHub-репозитории.
 
 ## Что дальше?
 
