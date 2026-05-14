@@ -369,6 +369,34 @@ git push
 
 Теперь актуальный код проекта хранится в GitHub-репозитории.
 
+## Настройка Lightdash
+
+![](./vizualizaciya-dannykh-2.png){width=1756px height=1310px}
+
+
+
+![](./vizualizaciya-dannykh-3.png){width=2126px height=1180px}
+
+
+
+![](./vizualizaciya-dannykh-4.png){width=2120px height=1172px}
+
+
+
+![](./vizualizaciya-dannykh-5.png){width=1063px height=564px}
+
+
+
+![](./vizualizaciya-dannykh-6.png){width=1068px height=585px}
+
+
+
+![](./vizualizaciya-dannykh-7.png){width=1058px height=661px}
+
+
+
+
+
 ## Что дальше?
 
 Теперь, помимо основной функциональности dbt Core, вы имеете представление об оркестрации задач и можете не только автоматизировать преобразование данных, но и визуализировать их для принятия управленческих решений.
