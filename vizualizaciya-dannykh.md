@@ -369,15 +369,33 @@ git push
 
 Теперь актуальный код проекта хранится в GitHub-репозитории.
 
+## Генерация токена GitHub
+
+Забегая немного вперед, скажу, что dbt-проект в Lightdash будет подтягиваться из GitHub-репозитория (в моем случае именно GitHub, у вас могут быть другие варианты). Для подключения и дальнейшей автоматизации обновления данных в Lightdash нужно будет указать персональный токен разработчика.
+
+Для получения токена войдите в свою учетную запись GitHub, перейдите в настройки профиля (**Settings**) и затем откройте настройки разработчика (**Developer Settings**):
+
+<image src="./vizualizaciya-dannykh-6.png" title="Рисунок 81. Настройки разработчика (Developer Settings) в GitHub" crop="0,0,100,100" objects="square,2.0713,24.2647,21.7067,19.3015,,top-left" width="1207px" height="544px" float="center"/>
+
+В выпадающем меню **Personal access tokens** выберите **Tokens (classic)**. Выполните генерацию нового токена - нажмите **Generate new token** -> **Generate new token (classic)**:
+
+<image src="./vizualizaciya-dannykh-7.png" title="Рисунок 82. Выбор варианта токена" crop="0,0,100,100" objects="square,61.2635,14.2857,24.9377,30.9859,,top-left" width="1203px" height="497px" float="center"/>
+
+Введите имя токена (при необходимости выберите подходящую опцию срока действия токена), поставьте галочку для **repo** и сгенерируйте токен:
+
+<image src="./vizualizaciya-dannykh-9.png" title="Рисунок 83. Генерация персонального классического токена" crop="0,0,100,100" objects="square,25.9816,30.8231,36.3409,30.648,,top-left&square,26.0652,71.1033,18.9641,7.3555,,top-left" width="1197px" height="571px" float="center"/>
+
+Теперь можно переходить к настройке Lightdash.
+
 ## Настройка Lightdash
 
 Теперь пришло время поработать в BI (варианты развертывания были описаны в [одном из предыдущих разделов](./vizualizaciya-dannykh#развертывание-и-подключение-lightdash)). Первым делом создайте учетную запись администратора. Конечно же хорошим тоном является создание отдельных учетных записей с различными полномочиями для админов, разработчиков, аналитиков и т.д. Но в рамках учебного проекта будем использовать одну учетную запись. На самом первом экране укажите имя, фамилию, email и пароль.
 
-<image src="./vizualizaciya-dannykh-5.png" title="Рисунок 81. Создание учетной записи в Lightdash" crop="0,7.597173144876325,99.9927953148962,92.40282685512368" width="1756px" height="1310px" float="center"/>
+<image src="./vizualizaciya-dannykh-5.png" title="Рисунок 84. Создание учетной записи в Lightdash" crop="0,7.597173144876325,99.9927953148962,92.40282685512368" width="1756px" height="1310px" float="center"/>
 
 Далее введите название организации (или имя проекта), а также выберите свою роль:
 
-![](./vizualizaciya-dannykh-4.png "Рисунок 82. Создание учетной записи в Lightdash"){width=2120px height=1172px}
+<image src="./vizualizaciya-dannykh-4.png" title="Рисунок 85. Создание учетной записи в Lightdash" crop="0,7.773851590106007,99.94199358876507,92.226148409894" width="2120px" height="1172px" float="center"/>
 
 Существует два варианта загрузки dbt-проекта в Lightdash:
 
@@ -385,7 +403,7 @@ git push
 
 -  через загрузку git-репозитория.
 
-<image src="./vizualizaciya-dannykh-3.png" title="Рисунок 83. Варианты загрузки dbt-проекта в Lightdash" crop="0,7.9787234042553195,100,92.02127659574468" objects="square,31.2324,65.3179,37.9116,14.0655,,top-left" width="1063px" height="564px" float="center"/>
+<image src="./vizualizaciya-dannykh-3.png" title="Рисунок 86. Варианты загрузки dbt-проекта в Lightdash" crop="0,7.9787234042553195,100,92.02127659574468" objects="square,31.2324,65.3179,37.9116,14.0655,,top-left" width="1063px" height="564px" float="center"/>
 
 Выберите источник данных (хранилище данных) и укажите параметры соединения к нему:
 
@@ -393,11 +411,11 @@ git push
 
 
 
-![](./vizualizaciya-dannykh-8.png){width=1059px height=658px}
+<image src="./vizualizaciya-dannykh-8.png" crop="0,7.243816254416961,99.89794080566729,92.75618374558304" width="1059px" height="658px" float="center"/>
 
 
 
-![](./vizualizaciya-dannykh-10.png){width=1065px height=654px}
+<image src="./vizualizaciya-dannykh-10.png" crop="0,7.420494699646643,99.9245615670851,92.57950530035336" width="1065px" height="654px" float="center"/>
 
 
 
