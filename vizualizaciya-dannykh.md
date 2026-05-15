@@ -371,23 +371,25 @@ git push
 
 ## Настройка Lightdash
 
-![](./vizualizaciya-dannykh-2.png){width=1756px height=1310px}
+Теперь пришло время поработать в BI (варианты развертывания были описаны в [одном из предыдущих разделов](./vizualizaciya-dannykh#развертывание-и-подключение-lightdash)). Первым делом создайте учетную запись администратора. Конечно же хорошим тоном является создание отдельных учетных записей с различными полномочиями для админов, разработчиков, аналитиков и т.д. Но в рамках учебного проекта будем использовать одну учетную запись. На самом первом экране укажите имя, фамилию, email и пароль.
 
+<image src="./vizualizaciya-dannykh-5.png" title="Рисунок 81. Создание учетной записи в Lightdash" crop="0,7.597173144876325,99.9927953148962,92.40282685512368" width="1756px" height="1310px" float="center"/>
 
+Далее введите название организации (или имя проекта), а также выберите свою роль:
 
-![](./vizualizaciya-dannykh-3.png){width=2126px height=1180px}
+![](./vizualizaciya-dannykh-4.png "Рисунок 82. Создание учетной записи в Lightdash"){width=2120px height=1172px}
 
+Существует два варианта загрузки dbt-проекта в Lightdash:
 
+-  с помощью CLI Lightdash,
 
-![](./vizualizaciya-dannykh-4.png){width=2120px height=1172px}
+-  через загрузку git-репозитория.
 
+<image src="./vizualizaciya-dannykh-3.png" title="Рисунок 83. Варианты загрузки dbt-проекта в Lightdash" crop="0,7.9787234042553195,100,92.02127659574468" objects="square,31.2324,65.3179,37.9116,14.0655,,top-left" width="1063px" height="564px" float="center"/>
 
+Выберите источник данных (хранилище данных) и укажите параметры соединения к нему:
 
-![](./vizualizaciya-dannykh-6.png){width=1068px height=585px}
-
-
-
-![](./vizualizaciya-dannykh-7.png){width=1058px height=661px}
+<image src="./vizualizaciya-dannykh-2.png" crop="0,7.06713780918728,99.8965160400138,92.93286219081273" width="1058px" height="661px" float="center"/>
 
 
 
@@ -468,6 +470,8 @@ git push
 
 
 ![](./vizualizaciya-dannykh-29.png){width=2516px height=1328px}
+
+
 
 
 
