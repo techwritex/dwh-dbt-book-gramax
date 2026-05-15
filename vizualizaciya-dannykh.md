@@ -433,41 +433,41 @@ git push
 
 <image src="./vizualizaciya-dannykh-11.png" title="Рисунок 90. Запуск первого запроса" crop="0,7.017543859649122,100,92.98245614035088" objects="square,39.868,78.7307,19.7926,9.0909,,top-left" width="1061px" height="627px" float="center"/>
 
+В списке таблиц из **Fct payments** и выберите метрику **Общая выручка**, а из **Dim cars** - **Brand**:
 
+<image src="./vizualizaciya-dannykh-12.png" title="Рисунок 91. Формирование аналитического разреза по бренду (марке)" crop="0,6.927710843373494,100,93.07228915662651" width="1062px" height="664px" float="center"/>
 
-![](./vizualizaciya-dannykh-12.png){width=1062px height=664px}
+Запустите выборку данных, нажмите **Run query**:
 
+<image src="./vizualizaciya-dannykh-13.png" title="Рисунок 92. Выборка общей выручки по бренду (марке)" crop="0,6.906906906906906,100,93.09309309309309" width="1054px" height="666px" float="center"/>
 
+Данные успешно запрошены из хранилища. Нажмите **Chart** для выбора подходящей визуализации этого разреза данных. По умолчанию подтягивается столбчатая диаграмм, которая вполне здесь уместна. Тем не менее вы можете изменить отображение через настройки. Нажмите **Configure**:
 
-![](./vizualizaciya-dannykh-13.png){width=1054px height=666px}
+<image src="./vizualizaciya-dannykh-14.png" title="Рисунок 93. Выборка общей выручки по бренду (марке)" crop="0,0,100,100" objects="square,32.9861,29.9517,9.5486,6.2802,,top-left&square,85.3733,29.9517,9.9826,6.8599,,top-left" width="2520px" height="1132px" float="center"/>
 
+Через **Chart type** вы можете выбрать вариант визуализации и в целом в разделе **Configure chart** также можете произвести нужные настройки. После того, как график готов нажмите **Save chart**:
 
+<image src="./vizualizaciya-dannykh-15.png" title="Рисунок 94. Настройки графика выручки по брендам" crop="0,7.174490699734277,100,92.82550930026572" width="2514px" height="1232px" float="center"/>
 
-![](./vizualizaciya-dannykh-14.png){width=2520px height=1132px}
+В модальном окне сохранения обязательно укажите название графика (**Chart name**) и опционально краткое описание (**Chart description**): 
 
+![](./vizualizaciya-dannykh-16.png "Рисунок 95. Сохранение графика выручки по брендам"){width=1232px height=762px}
 
-
-![](./vizualizaciya-dannykh-15.png){width=2514px height=1232px}
-
-
-
-![](./vizualizaciya-dannykh-16.png){width=1232px height=762px}
-
-
+Все артефакты проекта лучше сохранять в едином месте. По умолчанию при сохранении предлагается пространство **Shared**, но вы можете создать свое пространство. 
 
 ![](./vizualizaciya-dannykh-17.png){width=1214px height=836px}
 
 
 
-![](./vizualizaciya-dannykh-18.png){width=2518px height=1252px}
+<image src="./vizualizaciya-dannykh-18.png" crop="0,6.567425569176883,99.95848673957575,93.43257443082311" width="2518px" height="1252px" float="center"/>
 
 
 
-![](./vizualizaciya-dannykh-19.png){width=2524px height=1318px}
+<image src="./vizualizaciya-dannykh-19.png" crop="0,6.129597197898424,99.99214167839462,93.87040280210157" width="2524px" height="1318px" float="center"/>
 
 
 
-![](./vizualizaciya-dannykh-20.png){width=2522px height=1222px}
+<image src="./vizualizaciya-dannykh-20.png" crop="0,7.168458781362006,100,92.831541218638" width="2522px" height="1222px" float="center"/>
 
 
 
@@ -475,15 +475,15 @@ git push
 
 
 
-![](./vizualizaciya-dannykh-23.png){width=2518px height=1300px}
+<image src="./vizualizaciya-dannykh-23.png" crop="0,6.567425569176883,99.9971733046895,93.43257443082311" width="2518px" height="1300px" float="center"/>
 
 
 
-![](./vizualizaciya-dannykh-24.png){width=2530px height=1104px}
+<image src="./vizualizaciya-dannykh-24.png" crop="0,6.965174129353234,100,93.03482587064677" width="2530px" height="1104px" float="center"/>
 
 
 
-![](./vizualizaciya-dannykh-25.png){width=832px height=656px}
+<image src="./vizualizaciya-dannykh-25.png" crop="0,12.652439024390244,100,87.34756097560977" width="832px" height="656px" float="center"/>
 
 
 
@@ -499,7 +499,7 @@ git push
 
 
 
-![](./vizualizaciya-dannykh-29.png){width=2516px height=1328px}
+<image src="./vizualizaciya-dannykh-29.png" crop="0,5.954465849387041,99.96389422452016,94.04553415061297" width="2516px" height="1328px" float="center"/>
 
 
 
@@ -517,6 +517,6 @@ git push
 
 ## Что дальше?
 
-Теперь, помимо основной функциональности dbt Core, вы имеете представление об оркестрации задач и можете не только автоматизировать преобразование данных, но и визуализировать их для принятия управлен![](./vizualizaciya-dannykh-22.png){width=2518px height=1300px}ческих решений.
+Теперь, помимо основной функциональности dbt Core, вы имеете представление об оркестрации задач и можете не только автоматизировать преобразование данных, но и визуализировать их для принятия управленческих решений.
 
 Смело продолжайте детально разбираться с dbt Core и другими инструментами, упомянутыми в руководстве. Небольшой [перечень дополнительных ресурсов](./dopolnitelnye-resursy) поможет вам сделать следующий шаг в этом направлении.
