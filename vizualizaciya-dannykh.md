@@ -383,10 +383,6 @@ git push
 
 
 
-![](./vizualizaciya-dannykh-5.png){width=1063px height=564px}
-
-
-
 ![](./vizualizaciya-dannykh-6.png){width=1068px height=585px}
 
 
@@ -395,10 +391,98 @@ git push
 
 
 
+![](./vizualizaciya-dannykh-8.png){width=1059px height=658px}
 
+
+
+![](./vizualizaciya-dannykh-10.png){width=1065px height=654px}
+
+
+
+![](./vizualizaciya-dannykh-11.png){width=1061px height=627px}
+
+
+
+![](./vizualizaciya-dannykh-12.png){width=1062px height=664px}
+
+
+
+![](./vizualizaciya-dannykh-13.png){width=1054px height=666px}
+
+
+
+![](./vizualizaciya-dannykh-14.png){width=2520px height=1132px}
+
+
+
+![](./vizualizaciya-dannykh-15.png){width=2514px height=1232px}
+
+
+
+![](./vizualizaciya-dannykh-16.png){width=1232px height=762px}
+
+
+
+![](./vizualizaciya-dannykh-17.png){width=1214px height=836px}
+
+
+
+![](./vizualizaciya-dannykh-18.png){width=2518px height=1252px}
+
+
+
+![](./vizualizaciya-dannykh-19.png){width=2524px height=1318px}
+
+
+
+![](./vizualizaciya-dannykh-20.png){width=2522px height=1222px}
+
+
+
+![](./vizualizaciya-dannykh-21.png){width=1226px height=754px}
+
+
+
+![](./vizualizaciya-dannykh-23.png){width=2518px height=1300px}
+
+
+
+![](./vizualizaciya-dannykh-24.png){width=2530px height=1104px}
+
+
+
+![](./vizualizaciya-dannykh-25.png){width=832px height=656px}
+
+
+
+![](./vizualizaciya-dannykh-26.png){width=1210px height=550px}
+
+
+
+![](./vizualizaciya-dannykh-27.png){width=740px height=832px}
+
+
+
+![](./vizualizaciya-dannykh-28.png){width=1216px height=456px}
+
+
+
+![](./vizualizaciya-dannykh-29.png){width=2516px height=1328px}
+
+
+
+![](./vizualizaciya-dannykh-33.png){width=1500px height=862px}
+
+
+
+![](./vizualizaciya-dannykh-34.png){width=1504px height=868px}
+
+
+
+![](./vizualizaciya-dannykh-35.png){width=1504px height=872px}
 
 ## Что дальше?
 
-Теперь, помимо основной функциональности dbt Core, вы имеете представление об оркестрации задач и можете не только автоматизировать преобразование данных, но и визуализировать их для принятия управленческих решений.
+Теперь, помимо основной функциональности dbt Core, вы имеете представление об оркестрации задач и можете не только автоматизировать преобразование данных, но и визуализировать их для принятия управлен![](./vizualizaciya-dannykh-22.png){width=2518px height=1300px}ческих решений.
 
 Смело продолжайте детально разбираться с dbt Core и другими инструментами, упомянутыми в руководстве. Небольшой [перечень дополнительных ресурсов](./dopolnitelnye-resursy) поможет вам сделать следующий шаг в этом направлении.
